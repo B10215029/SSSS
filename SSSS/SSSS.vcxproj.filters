@@ -34,6 +34,9 @@
     <ClCompile Include="ShaderUtility.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
+    <ClCompile Include="MyMesh.cpp">
+      <Filter>原始程式檔</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainForm.h">
@@ -51,6 +54,9 @@
     <ClInclude Include="MeshViewPanel.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
+    <ClInclude Include="MyMesh.h">
+      <Filter>標頭檔</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc">
@@ -64,5 +70,16 @@
     <None Include="shader\DrawTriangle.vert">
       <Filter>Shader</Filter>
     </None>
+    <None Include="shader\DrawMesh.vert">
+      <Filter>Shader</Filter>
+    </None>
+    <None Include="shader\DrawMesh.frag">
+      <Filter>Shader</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="MainForm.resx">
+      <Filter>資源檔</Filter>
+    </EmbeddedResource>
   </ItemGroup>
 </Project>

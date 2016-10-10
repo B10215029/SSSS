@@ -1,18 +1,26 @@
 #pragma once
 #include "OpenGLPanel.h"
 #include "resource.h"
+#include "MyMesh.h"
 #include <GL\glew.h>
+#include <glm\glm.hpp>
 
 public ref class MeshViewPanel : public OpenGLPanel
 {
 public:
 	MeshViewPanel(System::Windows::Forms::Panel^ panel, System::Windows::Forms::Timer^ timer);
 	~MeshViewPanel();
+	void UpdateMesh(MyMesh *mesh);
 
 private:
-	const int vertexShaderResourceId = IDR_SHADER1;
-	const int fragmentShaderResourceId = IDR_SHADER2;
+	const int vertexShaderResourceId = IDR_SHADER3;
+	const int fragmentShaderResourceId = IDR_SHADER4;
 	GLuint program;
+	GLuint vao, vbo, ebo;
+	int vertexCount, faceCount;
+	GLuint modelMatrixLocation;
+	GLuint viewMatrixLocation;
+	GLuint projectionMatrixLocation;
 
 protected:
 	void initialize() override;

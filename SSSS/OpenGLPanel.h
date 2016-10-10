@@ -1,7 +1,7 @@
 #pragma once
 #include <windows.h>
 
-public ref class OpenGLPanel
+public ref class OpenGLPanel abstract
 {
 public:
 	OpenGLPanel(System::Windows::Forms::Panel^ panel, System::Windows::Forms::Timer^ timer);

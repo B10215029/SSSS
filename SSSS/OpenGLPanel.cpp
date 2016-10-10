@@ -52,6 +52,7 @@ OpenGLPanel::OpenGLPanel(System::Windows::Forms::Panel^ panel, System::Windows::
 		return;
 	}
 	std::clog << (const char*)(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(panel->Name)).ToPointer() << " create context ok" << std::endl;
+	std::clog << "OpenGL Version: " << (char *)(glGetString(GL_VERSION)) << std::endl;
 
 	initialize();
 	reshape(panel->Width, panel->Height);

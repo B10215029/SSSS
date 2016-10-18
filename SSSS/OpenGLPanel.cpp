@@ -2,7 +2,7 @@
 #include <iostream>
 #include <GL\glew.h>
 
-OpenGLPanel::OpenGLPanel(System::Windows::Forms::Panel^ panel, System::Windows::Forms::Timer^ timer) : panel(panel), timer(timer)
+OpenGLPanel::OpenGLPanel(System::Windows::Forms::Panel^ panel, System::Windows::Forms::Timer^ timer, MeshView *implementation) : panel(panel), timer(timer), implementation(implementation)
 {
 	// set event
 	this->panel->MouseDown += (gcnew System::Windows::Forms::MouseEventHandler(this, &OpenGLPanel::panel_MouseDown));
@@ -54,8 +54,8 @@ OpenGLPanel::OpenGLPanel(System::Windows::Forms::Panel^ panel, System::Windows::
 	std::clog << (const char*)(System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(panel->Name)).ToPointer() << " create context ok" << std::endl;
 	std::clog << "OpenGL Version: " << (char *)(glGetString(GL_VERSION)) << std::endl;
 
-	initialize();
-	reshape(panel->Width, panel->Height);
+	implementation->initialize();
+	implementation->reshape(panel->Width, panel->Height);
 	wglMakeCurrent(NULL, NULL);
 }
 
@@ -70,23 +70,23 @@ System::Void OpenGLPanel::panel_MouseDown(System::Object^  sender, System::Windo
 {
 	switch (e->Button) {
 	case System::Windows::Forms::MouseButtons::Left:
-		MouseDown(e->X, e->Y, 0);
+		implementation->MouseDown(e->X, e->Y, 0);
 		break;
 	case System::Windows::Forms::MouseButtons::Right:
-		MouseDown(e->X, e->Y, 1);
+		implementation->MouseDown(e->X, e->Y, 1);
 		break;
 	case System::Windows::Forms::MouseButtons::Middle:
-		MouseDown(e->X, e->Y, 2);
+		implementation->MouseDown(e->X, e->Y, 2);
 		break;
 	case System::Windows::Forms::MouseButtons::XButton1:
-		MouseDown(e->X, e->Y, 3);
+		implementation->MouseDown(e->X, e->Y, 3);
 		break;
 	case System::Windows::Forms::MouseButtons::XButton2:
-		MouseDown(e->X, e->Y, 4);
+		implementation->MouseDown(e->X, e->Y, 4);
 		break;
 	case System::Windows::Forms::MouseButtons::None:
 	default:
-		MouseDown(e->X, e->Y, -1);
+		implementation->MouseDown(e->X, e->Y, -1);
 		break;
 	}
 }
@@ -95,48 +95,48 @@ System::Void OpenGLPanel::panel_MouseUp(System::Object^  sender, System::Windows
 {
 	switch (e->Button) {
 	case System::Windows::Forms::MouseButtons::Left:
-		MouseUp(e->X, e->Y, 0);
+		implementation->MouseUp(e->X, e->Y, 0);
 		break;
 	case System::Windows::Forms::MouseButtons::Right:
-		MouseUp(e->X, e->Y, 1);
+		implementation->MouseUp(e->X, e->Y, 1);
 		break;
 	case System::Windows::Forms::MouseButtons::Middle:
-		MouseUp(e->X, e->Y, 2);
+		implementation->MouseUp(e->X, e->Y, 2);
 		break;
 	case System::Windows::Forms::MouseButtons::XButton1:
-		MouseUp(e->X, e->Y, 3);
+		implementation->MouseUp(e->X, e->Y, 3);
 		break;
 	case System::Windows::Forms::MouseButtons::XButton2:
-		MouseUp(e->X, e->Y, 4);
+		implementation->MouseUp(e->X, e->Y, 4);
 		break;
 	case System::Windows::Forms::MouseButtons::None:
 	default:
-		MouseUp(e->X, e->Y, -1);
+		implementation->MouseUp(e->X, e->Y, -1);
 		break;
 	}
 }
 
 System::Void OpenGLPanel::panel_MouseMove(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
 {
-	MouseMove(e->X, e->Y);
+	implementation->MouseMove(e->X, e->Y);
 }
 
 System::Void OpenGLPanel::panel_MouseWheel(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e)
 {
-	MouseWheel(e->X, e->Y, e->Delta);
+	implementation->MouseWheel(e->X, e->Y, e->Delta);
 }
 
 System::Void OpenGLPanel::panel_Resize(System::Object^  sender, System::EventArgs^  e)
 {
 	wglMakeCurrent(hDC, hGLRC);
-	reshape(panel->Width, panel->Height);
+	implementation->reshape(panel->Width, panel->Height);
 	wglMakeCurrent(NULL, NULL);
 }
 
 System::Void OpenGLPanel::timer_Tick(System::Object^  sender, System::EventArgs^  e)
 {
 	wglMakeCurrent(hDC, hGLRC);
-	display();
+	implementation->display();
 	SwapBuffers(hDC);
 	wglMakeCurrent(NULL, NULL);
 }

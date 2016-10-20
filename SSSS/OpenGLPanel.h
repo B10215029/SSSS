@@ -1,11 +1,11 @@
 #pragma once
 #include <windows.h>
-#include "MeshViewPanel.h"
+#include "OpenGLImplement.h"
 
 public ref class OpenGLPanel
 {
 public:
-	OpenGLPanel(System::Windows::Forms::Panel^ panel, System::Windows::Forms::Timer^ timer, MeshView* implementation);
+	OpenGLPanel(System::Windows::Forms::Panel^ panel, System::Windows::Forms::Timer^ timer, OpenGLImplement* implementation);
 	~OpenGLPanel();
 
 private:
@@ -13,7 +13,7 @@ private:
 	System::Windows::Forms::Timer^ timer;
 	HDC hDC;
 	HGLRC hGLRC;
-	MeshView* implementation;
+	OpenGLImplement* implementation;
 
 private: System::Void panel_MouseDown(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);
 private: System::Void panel_MouseUp(System::Object^  sender, System::Windows::Forms::MouseEventArgs^  e);

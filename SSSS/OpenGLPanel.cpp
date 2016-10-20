@@ -2,7 +2,7 @@
 #include <iostream>
 #include <GL\glew.h>
 
-OpenGLPanel::OpenGLPanel(System::Windows::Forms::Panel^ panel, System::Windows::Forms::Timer^ timer, MeshView *implementation) : panel(panel), timer(timer), implementation(implementation)
+OpenGLPanel::OpenGLPanel(System::Windows::Forms::Panel^ panel, System::Windows::Forms::Timer^ timer, OpenGLImplement *implementation) : panel(panel), timer(timer), implementation(implementation)
 {
 	// set event
 	this->panel->MouseDown += (gcnew System::Windows::Forms::MouseEventHandler(this, &OpenGLPanel::panel_MouseDown));

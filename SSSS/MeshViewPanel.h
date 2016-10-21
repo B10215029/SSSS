@@ -1,28 +1,28 @@
 #pragma once
 #include "resource.h"
+#include "OpenGLPanel.h"
 #include "MyMesh.h"
 #include <GL\glew.h>
 #include <glm\glm.hpp>
-#include "OpenGLImplement.h"
 
-class MeshView : public OpenGLImplement
+class MeshViewPanel : public OpenGLPanel
 {
 public:
-	MeshView();
-	~MeshView();
+	MeshViewPanel();
+	~MeshViewPanel();
 	void UpdateMesh(MyMesh *mesh);
 	int width;
+	int height;
 	MyMesh* mainMesh;
 	MyMesh* selectMesh;
-	int height;
-	bool isLMBDown;
-	bool isMMBDown;
 	glm::ivec2 previousMousePosition;
 	glm::vec3 transform;
 	glm::vec3 rotation;
 	glm::vec4 faceColor;
 	glm::vec4 lineColor;
 	glm::vec4 pointColor;
+	bool isLMBDown;
+	bool isMMBDown;
 	bool isLighting;
 	bool drawFace;
 	bool drawLine;
@@ -45,7 +45,7 @@ public:
 			return false;
 		}
 		mainMesh->update_normals();
-		isInvalid = true;
+		UpdateMesh(mainMesh);
 
 		return true;
 	}
@@ -64,7 +64,6 @@ private:
 	GLuint projectionMatrixLocation;
 	GLuint colorLocation;
 	GLuint isLightingLocation;
-	bool isInvalid;
 
 public:
 	void initialize();

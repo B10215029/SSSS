@@ -4,21 +4,21 @@
 #include <glm/gtc/matrix_transform.hpp> // glm::translate, glm::rotate, glm::scale, glm::perspective
 #include <glm/gtc/type_ptr.hpp> // glm::value_ptr
 
-MeshView::MeshView()
+MeshViewPanel::MeshViewPanel()
 {
 	isLMBDown = false;
 	isMMBDown = false;
 }
 
-MeshView::~MeshView()
+MeshViewPanel::~MeshViewPanel()
 {
 
 }
 
-void MeshView::initialize()
+void MeshViewPanel::initialize()
 {
 	std::cout << "initialize" << std::endl;
-	//glEnable(GL_CULL_FACE);
+	glEnable(GL_CULL_FACE);
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_POINT_SMOOTH);
 	glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
@@ -45,7 +45,7 @@ void MeshView::initialize()
 	//UpdateMesh(&mesh);
 }
 
-void MeshView::reshape(int width, int height)
+void MeshViewPanel::reshape(int width, int height)
 {
 	//std::cout << "reshape" << width << ", " << height << std::endl;
 	glViewport(0, 0, width, height);
@@ -53,12 +53,8 @@ void MeshView::reshape(int width, int height)
 	this->height = height;
 }
 
-void MeshView::display()
+void MeshViewPanel::display()
 {
-	if (isInvalid) {
-		UpdateMesh(mainMesh);
-		isInvalid = false;
-	}
 	//std::cout << "display" <<std::endl;
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(drawSolidProgram);
@@ -84,23 +80,24 @@ void MeshView::display()
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 		glUniform4fv(colorLocation, 1, glm::value_ptr(lineColor));
 		glEnable(GL_POLYGON_OFFSET_LINE);
-		glPolygonOffset(-1, -1);
+		glPolygonOffset(-0.5, -0.5);
 		glLineWidth(lineWidth);
 		glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, 0);
 	}
 	if (drawPoint) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_POINT);
 		glUniform4fv(colorLocation, 1, glm::value_ptr(pointColor));
-		//glEnable(GL_POLYGON_OFFSET_POINT);
-		//glPolygonOffset(-2, -2);
+		glEnable(GL_POLYGON_OFFSET_POINT);
+		glPolygonOffset(-0.6, -0.6);
 		glPointSize(pointSize);
 		glDrawElements(GL_TRIANGLES, faceCount * 3, GL_UNSIGNED_INT, 0);
 	}
 	glBindVertexArray(0);
 }
 
-void MeshView::UpdateMesh(MyMesh *mesh)
+void MeshViewPanel::UpdateMesh(MyMesh *mesh)
 {
+	Bind();
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
@@ -133,9 +130,10 @@ void MeshView::UpdateMesh(MyMesh *mesh)
 	delete[] vertexIndices;
 
 	glBindVertexArray(0);
+	Release();
 }
 
-void MeshView::MouseDown(int x, int y, int button)
+void MeshViewPanel::MouseDown(int x, int y, int button)
 {
 	if (button == 0) {
 		isLMBDown = true;
@@ -147,7 +145,7 @@ void MeshView::MouseDown(int x, int y, int button)
 	previousMousePosition.y = y;
 }
 
-void MeshView::MouseUp(int x, int y, int button)
+void MeshViewPanel::MouseUp(int x, int y, int button)
 {
 	if (button == 0)
 		isLMBDown = false;
@@ -155,7 +153,7 @@ void MeshView::MouseUp(int x, int y, int button)
 		isMMBDown = false;
 }
 
-void MeshView::MouseMove(int x, int y)
+void MeshViewPanel::MouseMove(int x, int y)
 {
 	if (isLMBDown) {
 		rotation.x += glm::radians((float)(y - previousMousePosition.y));
@@ -169,7 +167,7 @@ void MeshView::MouseMove(int x, int y)
 	previousMousePosition.y = y;
 }
 
-void MeshView::MouseWheel(int x, int y, int delta)
+void MeshViewPanel::MouseWheel(int x, int y, int delta)
 {
 	if (delta < 0) {
 		transform.z -= 100;

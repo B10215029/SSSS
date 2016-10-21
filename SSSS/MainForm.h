@@ -1,6 +1,6 @@
 #pragma once
 #include "MeshViewPanel.h"
-#include "OpenGLPanel.h"
+#include "OpenGLEventTrigger.h"
 
 namespace SSSS {
 
@@ -23,8 +23,8 @@ namespace SSSS {
 			//
 			//TODO:  在此加入建構函式程式碼
 			//
-			meshView = new MeshView;
-			gcnew OpenGLPanel(this->mainPanel, this->mainPanelTimer, meshView);
+			meshView = new MeshViewPanel;
+			gcnew OpenGLEventTrigger(this->mainPanel, this->mainPanelTimer, meshView);
 			meshView->faceColor.r = label1->BackColor.R / 255.0;
 			meshView->faceColor.g = label1->BackColor.G / 255.0;
 			meshView->faceColor.b = label1->BackColor.B / 255.0;
@@ -104,7 +104,7 @@ namespace SSSS {
 		/// <summary>
 		/// 設計工具所需的變數。
 		/// </summary>
-		MeshView* meshView;
+		MeshViewPanel* meshView;
 
 #pragma region Windows Form Designer generated code
 		/// <summary>

@@ -37,7 +37,7 @@
     <ClCompile Include="MyMesh.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
-    <ClCompile Include="OpenGLImplement.cpp">
+    <ClCompile Include="OpenGLEventTrigger.cpp">
       <Filter>原始程式檔</Filter>
     </ClCompile>
   </ItemGroup>
@@ -60,7 +60,7 @@
     <ClInclude Include="MyMesh.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
-    <ClInclude Include="OpenGLImplement.h">
+    <ClInclude Include="OpenGLEventTrigger.h">
       <Filter>標頭檔</Filter>
     </ClInclude>
   </ItemGroup>
@@ -82,7 +82,6 @@
     <None Include="shader\DrawSolidMesh.vert">
       <Filter>Shader</Filter>
     </None>
-    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">

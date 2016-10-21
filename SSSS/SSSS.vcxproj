@@ -135,7 +135,7 @@
     <ClCompile Include="MainForm.cpp" />
     <ClCompile Include="MeshViewPanel.cpp" />
     <ClCompile Include="MyMesh.cpp" />
-    <ClCompile Include="OpenGLImplement.cpp" />
+    <ClCompile Include="OpenGLEventTrigger.cpp" />
     <ClCompile Include="OpenGLPanel.cpp" />
     <ClCompile Include="ShaderUtility.cpp" />
   </ItemGroup>
@@ -152,7 +152,7 @@
     </ClInclude>
     <ClInclude Include="MeshViewPanel.h" />
     <ClInclude Include="MyMesh.h" />
-    <ClInclude Include="OpenGLImplement.h" />
+    <ClInclude Include="OpenGLEventTrigger.h" />
     <ClInclude Include="OpenGLPanel.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ShaderUtility.h" />
@@ -166,7 +166,6 @@
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram.cd" />
     <None Include="shader\DrawSolidMesh.frag" />
     <None Include="shader\DrawSolidMesh.vert" />
     <None Include="shader\DrawTriangle.frag" />

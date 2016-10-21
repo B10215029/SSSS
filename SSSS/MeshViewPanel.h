@@ -10,12 +10,10 @@ class MeshViewPanel : public OpenGLPanel
 public:
 	MeshViewPanel();
 	~MeshViewPanel();
-	void UpdateMesh(MyMesh *mesh);
 	int width;
 	int height;
 	MyMesh* mainMesh;
 	MyMesh* selectMesh;
-	glm::ivec2 previousMousePosition;
 	glm::vec3 transform;
 	glm::vec3 rotation;
 	glm::vec4 faceColor;
@@ -30,25 +28,18 @@ public:
 	float lineWidth;
 	float pointSize;
 
-	bool LoadMainMesh(const char* filename) {
-		mainMesh = new MyMesh();
-		mainMesh->request_vertex_normals();
-		mainMesh->request_face_normals();
-		if (!mainMesh->has_vertex_normals())
-		{
-			std::cerr << "ERROR: Standard vertex property 'Normals' not available!\n";
-		}
-
-		if (!OpenMesh::IO::read_mesh(*mainMesh, filename))
-		{
-			std::cerr << "read error\n";
-			return false;
-		}
-		mainMesh->update_normals();
-		UpdateMesh(mainMesh);
-
-		return true;
-	}
+	enum ViewDirection
+	{
+		FrontView,
+		BackView,
+		TopView,
+		BottomView,
+		RightView,
+		LeftView,
+		FTRView,
+		BBLView,
+		ResetView
+	};
 
 private:
 	const int drawSolidVertexShaderResourceId = IDR_SHADER3;
@@ -59,6 +50,7 @@ private:
 	GLuint drawWireframeProgram;
 	GLuint vao, vbo, ebo;
 	int vertexCount, faceCount;
+	glm::ivec2 previousMousePosition;
 	GLuint modelMatrixLocation;
 	GLuint viewMatrixLocation;
 	GLuint projectionMatrixLocation;
@@ -66,6 +58,10 @@ private:
 	GLuint isLightingLocation;
 
 public:
+	void UpdateMainMesh(MyMesh *mesh);
+	bool LoadMainMesh(const char* filename);
+	void SetView(ViewDirection viewDirection);
+
 	void initialize();
 	void reshape(int width, int height);
 	void display();

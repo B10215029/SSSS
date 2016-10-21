@@ -6,8 +6,11 @@
 
 MeshViewPanel::MeshViewPanel()
 {
+	mainMesh = NULL;
+	selectMesh = NULL;
 	isLMBDown = false;
 	isMMBDown = false;
+	SetView(ResetView);
 }
 
 MeshViewPanel::~MeshViewPanel()
@@ -29,20 +32,6 @@ void MeshViewPanel::initialize()
 	colorLocation = glGetUniformLocation(drawSolidProgram, "color");
 	isLightingLocation = glGetUniformLocation(drawSolidProgram, "isLighting");
 	LoadMainMesh("../3D Mesh/Juassic_5471.obj");
-	//MyMesh mesh;
-	//mesh.request_vertex_normals();
-	//mesh.request_face_normals();
-	//if (!mesh.has_vertex_normals())
-	//{
-	//	std::cerr << "ERROR: Standard vertex property 'Normals' not available!\n";
-	//}
-
-	//if (!OpenMesh::IO::read_mesh(mesh, "../3D Mesh/Juassic_5471.obj"))
-	//{
-	//	std::cerr << "read error\n";
-	//}
-	//mesh.update_normals();
-	//UpdateMesh(&mesh);
 }
 
 void MeshViewPanel::reshape(int width, int height)
@@ -95,9 +84,15 @@ void MeshViewPanel::display()
 	glBindVertexArray(0);
 }
 
-void MeshViewPanel::UpdateMesh(MyMesh *mesh)
+void MeshViewPanel::UpdateMainMesh(MyMesh *mesh)
 {
 	Bind();
+	if (mainMesh) {
+		delete mainMesh;
+		glDeleteVertexArrays(1, &vao);
+		glDeleteBuffers(1, &vbo);
+		glDeleteBuffers(1, &ebo);
+	}
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
@@ -131,6 +126,61 @@ void MeshViewPanel::UpdateMesh(MyMesh *mesh)
 
 	glBindVertexArray(0);
 	Release();
+}
+
+bool MeshViewPanel::LoadMainMesh(const char* filename) {
+	MyMesh* mesh = new MyMesh();
+	mesh->request_vertex_normals();
+	mesh->request_face_normals();
+	if (!mesh->has_vertex_normals())
+	{
+		std::cerr << "ERROR: Standard vertex property 'Normals' not available!\n";
+	}
+	if (!OpenMesh::IO::read_mesh(*mesh, filename))
+	{
+		std::cerr << "read error\n";
+		return false;
+	}
+	mesh->update_normals();
+	UpdateMainMesh(mesh);
+
+	return true;
+}
+
+void MeshViewPanel::SetView(ViewDirection viewDirection)
+{
+	switch(viewDirection) {
+	case FrontView:
+		rotation = glm::vec3(0, 0, 0);
+		break;
+	case BackView:
+		rotation = glm::vec3(0, glm::pi<float>(), 0);
+		break;
+	case TopView:
+		rotation = glm::vec3(glm::pi<float>() / 2, 0, 0);
+		break;
+	case BottomView:
+		rotation = glm::vec3(-glm::pi<float>() / 2, 0, 0);
+		break;
+	case RightView:
+		rotation = glm::vec3(0, -glm::pi<float>() / 2, 0);
+		break;
+	case LeftView:
+		rotation = glm::vec3(0, glm::pi<float>() / 2, 0);
+		break;
+	case FTRView:
+		rotation = glm::vec3(glm::pi<float>() / 4, -glm::pi<float>() / 4, 0);
+		break;
+	case BBLView:
+		rotation = glm::vec3(-glm::pi<float>() / 4, glm::pi<float>() / 4, 0);
+		break;
+	case ResetView:
+		transform = glm::vec3(0, 0, 0);
+		rotation = glm::vec3(0, 0, 0);
+		break;
+	default:
+		break;
+	}
 }
 
 void MeshViewPanel::MouseDown(int x, int y, int button)

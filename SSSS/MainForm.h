@@ -98,6 +98,32 @@ namespace SSSS {
 	private: System::Windows::Forms::ToolStripMenuItem^  saveModelToolStripMenuItem;
 	private: System::Windows::Forms::GroupBox^  groupBox1;
 	private: System::Windows::Forms::OpenFileDialog^  openFileDialog1;
+	private: System::Windows::Forms::GroupBox^  groupBox2;
+	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel4;
+	private: System::Windows::Forms::RadioButton^  radioButton1;
+	private: System::Windows::Forms::RadioButton^  radioButton2;
+	private: System::Windows::Forms::RadioButton^  radioButton3;
+	private: System::Windows::Forms::GroupBox^  groupBox3;
+	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel5;
+	private: System::Windows::Forms::GroupBox^  groupBox4;
+	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel6;
+	private: System::Windows::Forms::GroupBox^  groupBox5;
+	private: System::Windows::Forms::TableLayoutPanel^  tableLayoutPanel7;
+	private: System::Windows::Forms::Button^  buttonBottomView;
+
+	private: System::Windows::Forms::Button^  buttonTopView;
+	private: System::Windows::Forms::Button^  buttonFrontView;
+	private: System::Windows::Forms::Button^  buttonBackView;
+	private: System::Windows::Forms::Button^  buttonFTRView;
+	private: System::Windows::Forms::Button^  buttonBBLView;
+
+
+private: System::Windows::Forms::Button^  buttonResetView;
+
+private: System::Windows::Forms::Button^  buttonLeftView;
+
+	private: System::Windows::Forms::Button^  buttonRightView;
+
 	protected:
 
 	private:
@@ -135,12 +161,38 @@ namespace SSSS {
 			this->pointColorDialog = (gcnew System::Windows::Forms::ColorDialog());
 			this->tableLayoutPanel3 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->groupBox1 = (gcnew System::Windows::Forms::GroupBox());
+			this->groupBox2 = (gcnew System::Windows::Forms::GroupBox());
+			this->tableLayoutPanel4 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->radioButton1 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton2 = (gcnew System::Windows::Forms::RadioButton());
+			this->radioButton3 = (gcnew System::Windows::Forms::RadioButton());
+			this->groupBox3 = (gcnew System::Windows::Forms::GroupBox());
+			this->tableLayoutPanel5 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
+			this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
+			this->tableLayoutPanel7 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->buttonBottomView = (gcnew System::Windows::Forms::Button());
+			this->buttonTopView = (gcnew System::Windows::Forms::Button());
+			this->buttonFrontView = (gcnew System::Windows::Forms::Button());
+			this->buttonBackView = (gcnew System::Windows::Forms::Button());
+			this->buttonFTRView = (gcnew System::Windows::Forms::Button());
+			this->buttonBBLView = (gcnew System::Windows::Forms::Button());
+			this->buttonResetView = (gcnew System::Windows::Forms::Button());
+			this->buttonLeftView = (gcnew System::Windows::Forms::Button());
+			this->buttonRightView = (gcnew System::Windows::Forms::Button());
 			this->tableLayoutPanel1 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->openFileDialog1 = (gcnew System::Windows::Forms::OpenFileDialog());
 			this->tableLayoutPanel2->SuspendLayout();
 			this->menuStrip1->SuspendLayout();
 			this->tableLayoutPanel3->SuspendLayout();
 			this->groupBox1->SuspendLayout();
+			this->groupBox2->SuspendLayout();
+			this->tableLayoutPanel4->SuspendLayout();
+			this->groupBox3->SuspendLayout();
+			this->groupBox4->SuspendLayout();
+			this->groupBox5->SuspendLayout();
+			this->tableLayoutPanel7->SuspendLayout();
 			this->tableLayoutPanel1->SuspendLayout();
 			this->SuspendLayout();
 			// 
@@ -330,6 +382,10 @@ namespace SSSS {
 			this->tableLayoutPanel3->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				100)));
 			this->tableLayoutPanel3->Controls->Add(this->groupBox1, 0, 0);
+			this->tableLayoutPanel3->Controls->Add(this->groupBox2, 0, 1);
+			this->tableLayoutPanel3->Controls->Add(this->groupBox3, 0, 2);
+			this->tableLayoutPanel3->Controls->Add(this->groupBox4, 0, 3);
+			this->tableLayoutPanel3->Controls->Add(this->groupBox5, 0, 4);
 			this->tableLayoutPanel3->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel3->Location = System::Drawing::Point(630, 3);
 			this->tableLayoutPanel3->Name = L"tableLayoutPanel3";
@@ -352,6 +408,262 @@ namespace SSSS {
 			this->groupBox1->TabIndex = 6;
 			this->groupBox1->TabStop = false;
 			this->groupBox1->Text = L"顯示設定";
+			// 
+			// groupBox2
+			// 
+			this->groupBox2->Controls->Add(this->tableLayoutPanel4);
+			this->groupBox2->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->groupBox2->Location = System::Drawing::Point(3, 109);
+			this->groupBox2->Name = L"groupBox2";
+			this->groupBox2->Size = System::Drawing::Size(145, 100);
+			this->groupBox2->TabIndex = 7;
+			this->groupBox2->TabStop = false;
+			this->groupBox2->Text = L"選取工具";
+			// 
+			// tableLayoutPanel4
+			// 
+			this->tableLayoutPanel4->ColumnCount = 1;
+			this->tableLayoutPanel4->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				100)));
+			this->tableLayoutPanel4->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Absolute,
+				20)));
+			this->tableLayoutPanel4->Controls->Add(this->radioButton1, 0, 0);
+			this->tableLayoutPanel4->Controls->Add(this->radioButton2, 0, 1);
+			this->tableLayoutPanel4->Controls->Add(this->radioButton3, 0, 2);
+			this->tableLayoutPanel4->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->tableLayoutPanel4->Location = System::Drawing::Point(3, 18);
+			this->tableLayoutPanel4->Name = L"tableLayoutPanel4";
+			this->tableLayoutPanel4->RowCount = 3;
+			this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
+			this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
+			this->tableLayoutPanel4->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
+			this->tableLayoutPanel4->Size = System::Drawing::Size(139, 79);
+			this->tableLayoutPanel4->TabIndex = 0;
+			// 
+			// radioButton1
+			// 
+			this->radioButton1->AutoSize = true;
+			this->radioButton1->Location = System::Drawing::Point(3, 3);
+			this->radioButton1->Name = L"radioButton1";
+			this->radioButton1->Size = System::Drawing::Size(47, 16);
+			this->radioButton1->TabIndex = 0;
+			this->radioButton1->TabStop = true;
+			this->radioButton1->Text = L"選點";
+			this->radioButton1->UseVisualStyleBackColor = true;
+			// 
+			// radioButton2
+			// 
+			this->radioButton2->AutoSize = true;
+			this->radioButton2->Location = System::Drawing::Point(3, 29);
+			this->radioButton2->Name = L"radioButton2";
+			this->radioButton2->Size = System::Drawing::Size(47, 16);
+			this->radioButton2->TabIndex = 1;
+			this->radioButton2->TabStop = true;
+			this->radioButton2->Text = L"選邊";
+			this->radioButton2->UseVisualStyleBackColor = true;
+			// 
+			// radioButton3
+			// 
+			this->radioButton3->AutoSize = true;
+			this->radioButton3->Location = System::Drawing::Point(3, 55);
+			this->radioButton3->Name = L"radioButton3";
+			this->radioButton3->Size = System::Drawing::Size(47, 16);
+			this->radioButton3->TabIndex = 2;
+			this->radioButton3->TabStop = true;
+			this->radioButton3->Text = L"選面";
+			this->radioButton3->UseVisualStyleBackColor = true;
+			// 
+			// groupBox3
+			// 
+			this->groupBox3->Controls->Add(this->tableLayoutPanel5);
+			this->groupBox3->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->groupBox3->Location = System::Drawing::Point(3, 215);
+			this->groupBox3->Name = L"groupBox3";
+			this->groupBox3->Size = System::Drawing::Size(145, 100);
+			this->groupBox3->TabIndex = 8;
+			this->groupBox3->TabStop = false;
+			this->groupBox3->Text = L"減面工具";
+			// 
+			// tableLayoutPanel5
+			// 
+			this->tableLayoutPanel5->ColumnCount = 2;
+			this->tableLayoutPanel5->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				50)));
+			this->tableLayoutPanel5->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				50)));
+			this->tableLayoutPanel5->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->tableLayoutPanel5->Location = System::Drawing::Point(3, 18);
+			this->tableLayoutPanel5->Name = L"tableLayoutPanel5";
+			this->tableLayoutPanel5->RowCount = 2;
+			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel5->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel5->Size = System::Drawing::Size(139, 79);
+			this->tableLayoutPanel5->TabIndex = 0;
+			// 
+			// groupBox4
+			// 
+			this->groupBox4->Controls->Add(this->tableLayoutPanel6);
+			this->groupBox4->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->groupBox4->Location = System::Drawing::Point(3, 321);
+			this->groupBox4->Name = L"groupBox4";
+			this->groupBox4->Size = System::Drawing::Size(145, 100);
+			this->groupBox4->TabIndex = 9;
+			this->groupBox4->TabStop = false;
+			this->groupBox4->Text = L"骨架工具";
+			// 
+			// tableLayoutPanel6
+			// 
+			this->tableLayoutPanel6->ColumnCount = 2;
+			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				50)));
+			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				50)));
+			this->tableLayoutPanel6->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->tableLayoutPanel6->Location = System::Drawing::Point(3, 18);
+			this->tableLayoutPanel6->Name = L"tableLayoutPanel6";
+			this->tableLayoutPanel6->RowCount = 2;
+			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
+			this->tableLayoutPanel6->Size = System::Drawing::Size(139, 79);
+			this->tableLayoutPanel6->TabIndex = 0;
+			// 
+			// groupBox5
+			// 
+			this->groupBox5->Controls->Add(this->tableLayoutPanel7);
+			this->groupBox5->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->groupBox5->Location = System::Drawing::Point(3, 427);
+			this->groupBox5->Name = L"groupBox5";
+			this->groupBox5->Size = System::Drawing::Size(145, 101);
+			this->groupBox5->TabIndex = 10;
+			this->groupBox5->TabStop = false;
+			this->groupBox5->Text = L"視角設定";
+			// 
+			// tableLayoutPanel7
+			// 
+			this->tableLayoutPanel7->ColumnCount = 3;
+			this->tableLayoutPanel7->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				33.33333F)));
+			this->tableLayoutPanel7->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				33.33333F)));
+			this->tableLayoutPanel7->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
+				33.33333F)));
+			this->tableLayoutPanel7->Controls->Add(this->buttonBottomView, 1, 1);
+			this->tableLayoutPanel7->Controls->Add(this->buttonTopView, 1, 0);
+			this->tableLayoutPanel7->Controls->Add(this->buttonFrontView, 0, 0);
+			this->tableLayoutPanel7->Controls->Add(this->buttonBackView, 0, 1);
+			this->tableLayoutPanel7->Controls->Add(this->buttonFTRView, 0, 2);
+			this->tableLayoutPanel7->Controls->Add(this->buttonBBLView, 1, 2);
+			this->tableLayoutPanel7->Controls->Add(this->buttonResetView, 2, 2);
+			this->tableLayoutPanel7->Controls->Add(this->buttonLeftView, 2, 1);
+			this->tableLayoutPanel7->Controls->Add(this->buttonRightView, 2, 0);
+			this->tableLayoutPanel7->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->tableLayoutPanel7->Location = System::Drawing::Point(3, 18);
+			this->tableLayoutPanel7->Name = L"tableLayoutPanel7";
+			this->tableLayoutPanel7->RowCount = 3;
+			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
+			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
+			this->tableLayoutPanel7->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 33.33333F)));
+			this->tableLayoutPanel7->Size = System::Drawing::Size(139, 80);
+			this->tableLayoutPanel7->TabIndex = 0;
+			// 
+			// buttonBottomView
+			// 
+			this->buttonBottomView->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonBottomView->Location = System::Drawing::Point(49, 29);
+			this->buttonBottomView->Name = L"buttonBottomView";
+			this->buttonBottomView->Size = System::Drawing::Size(40, 20);
+			this->buttonBottomView->TabIndex = 0;
+			this->buttonBottomView->Text = L"Bottom";
+			this->buttonBottomView->UseVisualStyleBackColor = true;
+			this->buttonBottomView->Click += gcnew System::EventHandler(this, &MainForm::buttonBottomView_Click);
+			// 
+			// buttonTopView
+			// 
+			this->buttonTopView->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonTopView->Location = System::Drawing::Point(49, 3);
+			this->buttonTopView->Name = L"buttonTopView";
+			this->buttonTopView->Size = System::Drawing::Size(40, 20);
+			this->buttonTopView->TabIndex = 1;
+			this->buttonTopView->Text = L"Top";
+			this->buttonTopView->UseVisualStyleBackColor = true;
+			this->buttonTopView->Click += gcnew System::EventHandler(this, &MainForm::buttonTopView_Click);
+			// 
+			// buttonFrontView
+			// 
+			this->buttonFrontView->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonFrontView->Location = System::Drawing::Point(3, 3);
+			this->buttonFrontView->Name = L"buttonFrontView";
+			this->buttonFrontView->Size = System::Drawing::Size(40, 20);
+			this->buttonFrontView->TabIndex = 2;
+			this->buttonFrontView->Text = L"Front";
+			this->buttonFrontView->UseVisualStyleBackColor = true;
+			this->buttonFrontView->Click += gcnew System::EventHandler(this, &MainForm::buttonFrontView_Click);
+			// 
+			// buttonBackView
+			// 
+			this->buttonBackView->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonBackView->Location = System::Drawing::Point(3, 29);
+			this->buttonBackView->Name = L"buttonBackView";
+			this->buttonBackView->Size = System::Drawing::Size(40, 20);
+			this->buttonBackView->TabIndex = 3;
+			this->buttonBackView->Text = L"Back";
+			this->buttonBackView->UseVisualStyleBackColor = true;
+			this->buttonBackView->Click += gcnew System::EventHandler(this, &MainForm::buttonBackView_Click);
+			// 
+			// buttonFTRView
+			// 
+			this->buttonFTRView->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonFTRView->Location = System::Drawing::Point(3, 55);
+			this->buttonFTRView->Name = L"buttonFTRView";
+			this->buttonFTRView->Size = System::Drawing::Size(40, 22);
+			this->buttonFTRView->TabIndex = 4;
+			this->buttonFTRView->Text = L"FTR";
+			this->buttonFTRView->UseVisualStyleBackColor = true;
+			this->buttonFTRView->Click += gcnew System::EventHandler(this, &MainForm::buttonFTRView_Click);
+			// 
+			// buttonBBLView
+			// 
+			this->buttonBBLView->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonBBLView->Location = System::Drawing::Point(49, 55);
+			this->buttonBBLView->Name = L"buttonBBLView";
+			this->buttonBBLView->Size = System::Drawing::Size(40, 22);
+			this->buttonBBLView->TabIndex = 5;
+			this->buttonBBLView->Text = L"BBL";
+			this->buttonBBLView->UseVisualStyleBackColor = true;
+			this->buttonBBLView->Click += gcnew System::EventHandler(this, &MainForm::buttonBBLView_Click);
+			// 
+			// buttonResetView
+			// 
+			this->buttonResetView->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonResetView->Location = System::Drawing::Point(95, 55);
+			this->buttonResetView->Name = L"buttonResetView";
+			this->buttonResetView->Size = System::Drawing::Size(41, 22);
+			this->buttonResetView->TabIndex = 6;
+			this->buttonResetView->Text = L"Reset";
+			this->buttonResetView->UseVisualStyleBackColor = true;
+			this->buttonResetView->Click += gcnew System::EventHandler(this, &MainForm::buttonResetView_Click);
+			// 
+			// buttonLeftView
+			// 
+			this->buttonLeftView->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonLeftView->Location = System::Drawing::Point(95, 29);
+			this->buttonLeftView->Name = L"buttonLeftView";
+			this->buttonLeftView->Size = System::Drawing::Size(41, 20);
+			this->buttonLeftView->TabIndex = 7;
+			this->buttonLeftView->Text = L"Left";
+			this->buttonLeftView->UseVisualStyleBackColor = true;
+			this->buttonLeftView->Click += gcnew System::EventHandler(this, &MainForm::buttonLeftView_Click);
+			// 
+			// buttonRightView
+			// 
+			this->buttonRightView->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonRightView->Location = System::Drawing::Point(95, 3);
+			this->buttonRightView->Name = L"buttonRightView";
+			this->buttonRightView->Size = System::Drawing::Size(41, 20);
+			this->buttonRightView->TabIndex = 8;
+			this->buttonRightView->Text = L"Right";
+			this->buttonRightView->UseVisualStyleBackColor = true;
+			this->buttonRightView->Click += gcnew System::EventHandler(this, &MainForm::buttonRightView_Click);
 			// 
 			// tableLayoutPanel1
 			// 
@@ -391,6 +703,13 @@ namespace SSSS {
 			this->menuStrip1->PerformLayout();
 			this->tableLayoutPanel3->ResumeLayout(false);
 			this->groupBox1->ResumeLayout(false);
+			this->groupBox2->ResumeLayout(false);
+			this->tableLayoutPanel4->ResumeLayout(false);
+			this->tableLayoutPanel4->PerformLayout();
+			this->groupBox3->ResumeLayout(false);
+			this->groupBox4->ResumeLayout(false);
+			this->groupBox5->ResumeLayout(false);
+			this->tableLayoutPanel7->ResumeLayout(false);
 			this->tableLayoutPanel1->ResumeLayout(false);
 			this->ResumeLayout(false);
 			this->PerformLayout();
@@ -464,6 +783,33 @@ private: System::Void readModelToolStripMenuItem_Click(System::Object^  sender, 
 		meshView->LoadMainMesh((const char*)System::Runtime::InteropServices::Marshal::StringToHGlobalAnsi(openFileDialog1->FileName).ToPointer());
 		//System::Console::WriteLine(openFileDialog1->FileName);
 	}
+}
+private: System::Void buttonFrontView_Click(System::Object^  sender, System::EventArgs^  e) {
+	meshView->SetView(MeshViewPanel::ViewDirection::FrontView);
+}
+private: System::Void buttonTopView_Click(System::Object^  sender, System::EventArgs^  e) {
+	meshView->SetView(MeshViewPanel::ViewDirection::TopView);
+}
+private: System::Void buttonRightView_Click(System::Object^  sender, System::EventArgs^  e) {
+	meshView->SetView(MeshViewPanel::ViewDirection::RightView);
+}
+private: System::Void buttonBackView_Click(System::Object^  sender, System::EventArgs^  e) {
+	meshView->SetView(MeshViewPanel::ViewDirection::BackView);
+}
+private: System::Void buttonBottomView_Click(System::Object^  sender, System::EventArgs^  e) {
+	meshView->SetView(MeshViewPanel::ViewDirection::BottomView);
+}
+private: System::Void buttonLeftView_Click(System::Object^  sender, System::EventArgs^  e) {
+	meshView->SetView(MeshViewPanel::ViewDirection::LeftView);
+}
+private: System::Void buttonFTRView_Click(System::Object^  sender, System::EventArgs^  e) {
+	meshView->SetView(MeshViewPanel::ViewDirection::FTRView);
+}
+private: System::Void buttonBBLView_Click(System::Object^  sender, System::EventArgs^  e) {
+	meshView->SetView(MeshViewPanel::ViewDirection::BBLView);
+}
+private: System::Void buttonResetView_Click(System::Object^  sender, System::EventArgs^  e) {
+	meshView->SetView(MeshViewPanel::ViewDirection::ResetView);
 }
 };
 }

@@ -123,6 +123,9 @@ private: System::Windows::Forms::Button^  buttonResetView;
 private: System::Windows::Forms::Button^  buttonLeftView;
 
 	private: System::Windows::Forms::Button^  buttonRightView;
+private: System::Windows::Forms::Button^  buttonExtraction;
+private: System::Windows::Forms::TextBox^  textBox3;
+
 
 	protected:
 
@@ -170,6 +173,8 @@ private: System::Windows::Forms::Button^  buttonLeftView;
 			this->tableLayoutPanel5 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->groupBox4 = (gcnew System::Windows::Forms::GroupBox());
 			this->tableLayoutPanel6 = (gcnew System::Windows::Forms::TableLayoutPanel());
+			this->buttonExtraction = (gcnew System::Windows::Forms::Button());
+			this->textBox3 = (gcnew System::Windows::Forms::TextBox());
 			this->groupBox5 = (gcnew System::Windows::Forms::GroupBox());
 			this->tableLayoutPanel7 = (gcnew System::Windows::Forms::TableLayoutPanel());
 			this->buttonBottomView = (gcnew System::Windows::Forms::Button());
@@ -191,6 +196,7 @@ private: System::Windows::Forms::Button^  buttonLeftView;
 			this->tableLayoutPanel4->SuspendLayout();
 			this->groupBox3->SuspendLayout();
 			this->groupBox4->SuspendLayout();
+			this->tableLayoutPanel6->SuspendLayout();
 			this->groupBox5->SuspendLayout();
 			this->tableLayoutPanel7->SuspendLayout();
 			this->tableLayoutPanel1->SuspendLayout();
@@ -465,6 +471,7 @@ private: System::Windows::Forms::Button^  buttonLeftView;
 			// radioButton3
 			// 
 			this->radioButton3->AutoSize = true;
+			this->radioButton3->Checked = true;
 			this->radioButton3->Location = System::Drawing::Point(3, 55);
 			this->radioButton3->Name = L"radioButton3";
 			this->radioButton3->Size = System::Drawing::Size(47, 16);
@@ -518,6 +525,8 @@ private: System::Windows::Forms::Button^  buttonLeftView;
 				50)));
 			this->tableLayoutPanel6->ColumnStyles->Add((gcnew System::Windows::Forms::ColumnStyle(System::Windows::Forms::SizeType::Percent,
 				50)));
+			this->tableLayoutPanel6->Controls->Add(this->buttonExtraction, 0, 0);
+			this->tableLayoutPanel6->Controls->Add(this->textBox3, 1, 0);
 			this->tableLayoutPanel6->Dock = System::Windows::Forms::DockStyle::Fill;
 			this->tableLayoutPanel6->Location = System::Drawing::Point(3, 18);
 			this->tableLayoutPanel6->Name = L"tableLayoutPanel6";
@@ -526,6 +535,26 @@ private: System::Windows::Forms::Button^  buttonLeftView;
 			this->tableLayoutPanel6->RowStyles->Add((gcnew System::Windows::Forms::RowStyle(System::Windows::Forms::SizeType::Percent, 50)));
 			this->tableLayoutPanel6->Size = System::Drawing::Size(139, 79);
 			this->tableLayoutPanel6->TabIndex = 0;
+			// 
+			// buttonExtraction
+			// 
+			this->buttonExtraction->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->buttonExtraction->Location = System::Drawing::Point(3, 3);
+			this->buttonExtraction->Name = L"buttonExtraction";
+			this->buttonExtraction->Size = System::Drawing::Size(63, 33);
+			this->buttonExtraction->TabIndex = 0;
+			this->buttonExtraction->Text = L"Extraction";
+			this->buttonExtraction->UseVisualStyleBackColor = true;
+			this->buttonExtraction->Click += gcnew System::EventHandler(this, &MainForm::buttonExtraction_Click);
+			// 
+			// textBox3
+			// 
+			this->textBox3->Dock = System::Windows::Forms::DockStyle::Fill;
+			this->textBox3->Location = System::Drawing::Point(72, 3);
+			this->textBox3->Name = L"textBox3";
+			this->textBox3->Size = System::Drawing::Size(64, 22);
+			this->textBox3->TabIndex = 1;
+			this->textBox3->Text = L"2";
 			// 
 			// groupBox5
 			// 
@@ -708,6 +737,8 @@ private: System::Windows::Forms::Button^  buttonLeftView;
 			this->tableLayoutPanel4->PerformLayout();
 			this->groupBox3->ResumeLayout(false);
 			this->groupBox4->ResumeLayout(false);
+			this->tableLayoutPanel6->ResumeLayout(false);
+			this->tableLayoutPanel6->PerformLayout();
 			this->groupBox5->ResumeLayout(false);
 			this->tableLayoutPanel7->ResumeLayout(false);
 			this->tableLayoutPanel1->ResumeLayout(false);
@@ -810,6 +841,16 @@ private: System::Void buttonBBLView_Click(System::Object^  sender, System::Event
 }
 private: System::Void buttonResetView_Click(System::Object^  sender, System::EventArgs^  e) {
 	meshView->SetView(MeshViewPanel::ViewDirection::ResetView);
+}
+private: System::Void buttonExtraction_Click(System::Object^  sender, System::EventArgs^  e) {
+	try
+	{
+		meshView->ExtractionMesh(float::Parse(textBox3->Text));
+	}
+	catch (System::FormatException^ e)
+	{
+
+	}
 }
 };
 }

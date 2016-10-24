@@ -9,6 +9,7 @@ MeshViewPanel::MeshViewPanel()
 	mainMesh = NULL;
 	selectMesh = NULL;
 	isLMBDown = false;
+	isRMBDown = false;
 	isMMBDown = false;
 	SetView(ResetView);
 }
@@ -45,6 +46,9 @@ void MeshViewPanel::reshape(int width, int height)
 void MeshViewPanel::display()
 {
 	//std::cout << "display" <<std::endl;
+	if (!mainMesh) {
+		return;
+	}
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	glUseProgram(drawSolidProgram);
 	glm::mat4 model = glm::rotate(glm::mat4(1.0f), rotation.x, glm::vec3(1, 0, 0));
@@ -54,9 +58,6 @@ void MeshViewPanel::display()
 	glUniformMatrix4fv(modelMatrixLocation, 1, GL_FALSE, glm::value_ptr(model));
 	glUniformMatrix4fv(viewMatrixLocation, 1, GL_FALSE, glm::value_ptr(view));
 	glUniformMatrix4fv(projectionMatrixLocation, 1, GL_FALSE, glm::value_ptr(projection));
-	glm::vec4 c = glm::vec4(0.5, 0.5, 0.5, 1);
-	glUniform4fv(colorLocation, 1, glm::value_ptr(c));
-	glUniform1i(isLightingLocation, 0);
 	glBindVertexArray(vao);
 	if (drawFace) {
 		glPolygonMode(GL_FRONT_AND_BACK, GL_FILL);
@@ -88,19 +89,25 @@ void MeshViewPanel::UpdateMainMesh(MyMesh *mesh)
 {
 	Bind();
 	if (mainMesh) {
-		delete mainMesh;
 		glDeleteVertexArrays(1, &vao);
 		glDeleteBuffers(1, &vbo);
 		glDeleteBuffers(1, &ebo);
 	}
+	mainMesh = mesh;
 	glGenVertexArrays(1, &vao);
 	glBindVertexArray(vao);
 
+	maxPointDist = 0;
 	vertexCount = mesh->n_vertices();
 	GLfloat *vertexData = new GLfloat[vertexCount * 6];
 	for (MyMesh::VertexIter v_it = mesh->vertices_begin(); v_it != mesh->vertices_end(); ++v_it) {
 		memcpy(vertexData + (v_it->idx() * 6), mesh->point(v_it.handle()).data(), sizeof(GLfloat) * 3);
 		memcpy(vertexData + (v_it->idx() * 6 + 3), mesh->normal(v_it.handle()).data(), sizeof(GLfloat) * 3);
+		for (int i = 0; i < 3; i++) {
+			if (abs(mesh->point(v_it.handle())[i]) > maxPointDist) {
+				maxPointDist = abs(mesh->point(v_it.handle())[i]);
+			}
+		}
 	}
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
@@ -130,21 +137,20 @@ void MeshViewPanel::UpdateMainMesh(MyMesh *mesh)
 
 bool MeshViewPanel::LoadMainMesh(const char* filename) {
 	MyMesh* mesh = new MyMesh();
-	mesh->request_vertex_normals();
-	mesh->request_face_normals();
-	if (!mesh->has_vertex_normals())
-	{
-		std::cerr << "ERROR: Standard vertex property 'Normals' not available!\n";
+	OpenMesh::IO::Options options;
+	if (OpenMesh::IO::read_mesh(*mesh, filename, options)) {
+		if (!options.check(OpenMesh::IO::Options::VertexNormal) && mesh->has_vertex_normals()) {
+			mesh->update_normals();
+		}
+		UpdateMainMesh(mesh);
+		SetView(ResetView);
+		return true;
 	}
-	if (!OpenMesh::IO::read_mesh(*mesh, filename))
-	{
+	else {
 		std::cerr << "read error\n";
+		delete mesh;
 		return false;
 	}
-	mesh->update_normals();
-	UpdateMainMesh(mesh);
-
-	return true;
 }
 
 void MeshViewPanel::SetView(ViewDirection viewDirection)
@@ -175,7 +181,7 @@ void MeshViewPanel::SetView(ViewDirection viewDirection)
 		rotation = glm::vec3(-glm::pi<float>() / 4, glm::pi<float>() / 4, 0);
 		break;
 	case ResetView:
-		transform = glm::vec3(0, 0, 0);
+		transform = glm::vec3(0, 0, -maxPointDist * 3);
 		rotation = glm::vec3(0, 0, 0);
 		break;
 	default:
@@ -183,14 +189,20 @@ void MeshViewPanel::SetView(ViewDirection viewDirection)
 	}
 }
 
+void MeshViewPanel::ExtractionMesh(float s)
+{
+	mainMesh->Extraction(s);
+	UpdateMainMesh(mainMesh);
+}
+
 void MeshViewPanel::MouseDown(int x, int y, int button)
 {
-	if (button == 0) {
+	if (button == 0)
 		isLMBDown = true;
-	}
-	if (button == 2) {
+	if (button == 1)
+		isRMBDown = true;
+	if (button == 2)
 		isMMBDown = true;
-	}
 	previousMousePosition.x = x;
 	previousMousePosition.y = y;
 }
@@ -199,6 +211,8 @@ void MeshViewPanel::MouseUp(int x, int y, int button)
 {
 	if (button == 0)
 		isLMBDown = false;
+	if (button == 1)
+		isRMBDown = false;
 	if (button == 2)
 		isMMBDown = false;
 }
@@ -219,10 +233,29 @@ void MeshViewPanel::MouseMove(int x, int y)
 
 void MeshViewPanel::MouseWheel(int x, int y, int delta)
 {
-	if (delta < 0) {
-		transform.z -= 100;
+	if (isRMBDown) {
+		if (delta < 0) {
+			transform.z -= 10;
+		}
+		else {
+			transform.z += 10;
+		}
+	}
+	else if (isLMBDown) {
+		if (delta < 0) {
+			transform.z -= 1000;
+		}
+		else {
+			transform.z += 1000;
+		}
 	}
 	else {
-		transform.z += 100;
+		if (delta < 0) {
+			transform.z -= 100;
+		}
+		else {
+			transform.z += 100;
+		}
 	}
+
 }

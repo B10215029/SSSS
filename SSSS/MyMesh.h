@@ -3,21 +3,12 @@
 #undef max
 #include <OpenMesh/Core/IO/MeshIO.hh>
 #include <OpenMesh/Core/Mesh/TriMesh_ArrayKernelT.hh>
+#include <Eigen/Sparse>
 
-public class MyTraits : public OpenMesh::DefaultTraits
+struct MyTraits : public OpenMesh::DefaultTraits
 {
-public:
-	MyTraits()
-	{
-
-	}
-	~MyTraits()
-	{
-
-	}
-
-private:
-
+	VertexAttributes(OpenMesh::Attributes::Normal);
+	FaceAttributes(OpenMesh::Attributes::Normal);
 };
 
 public class MyMesh : public OpenMesh::TriMesh_ArrayKernelT<MyTraits>
@@ -25,7 +16,20 @@ public class MyMesh : public OpenMesh::TriMesh_ArrayKernelT<MyTraits>
 public:
 	MyMesh();
 	~MyMesh();
+	void Extraction(float s = 2);
 
 private:
+	static OpenMesh::EPropHandleT<double> edgeWeight;
+	static OpenMesh::VPropHandleT<double> oneRingArea;
 
+	void UpdateEdgeWeight();
+	double MeshArea();
+	double face_area(FaceHandle fh);
+	double one_ring_area(VertexHandle vh);
+
+	Eigen::SparseMatrix<double> a;
+	Eigen::MatrixXd b;
+	Eigen::MatrixXd x;
+	Eigen::SimplicialLDLT<Eigen::SparseMatrix<double>> linearSolver;
+	bool hasExtraction;
 };

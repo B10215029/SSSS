@@ -82,7 +82,7 @@ GLuint loadShader(const int fileResourceId, GLenum shaderType)
 	GLint dwSize = SizeofResource(NULL, hRes);
 	HGLOBAL hData = LoadResource(NULL, hRes);
 	GLchar *shaderSource = (GLchar*)LockResource(hData);
-	std::cout << ">>load shader" << fileResourceId << std::endl;
+	//std::cout << ">>load shader" << fileResourceId << std::endl;
 	//std::cout << shaderSource;
 	glShaderSource(shader, 1, &shaderSource, &dwSize);
 	glCompileShader(shader);
@@ -136,7 +136,7 @@ GLuint loadProgram(const char* vertexShaderFilePath, const char* fragmentShaderF
 
 GLuint loadProgram(const int vertexShaderResourceId, const int fragmentShaderResourceId)
 {
-	std::cout << ">>load program " << vertexShaderResourceId << " and " << fragmentShaderResourceId << std::endl;
+	//std::cout << ">>load program " << vertexShaderResourceId << " and " << fragmentShaderResourceId << std::endl;
 	int vertexShader = loadShader(vertexShaderResourceId, GL_VERTEX_SHADER);
 	int fragmentShader = loadShader(fragmentShaderResourceId, GL_FRAGMENT_SHADER);
 	int program = glCreateProgram();

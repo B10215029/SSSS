@@ -20,6 +20,7 @@ public:
 	glm::vec4 lineColor;
 	glm::vec4 pointColor;
 	bool isLMBDown;
+	bool isRMBDown;
 	bool isMMBDown;
 	bool isLighting;
 	bool drawFace;
@@ -50,6 +51,7 @@ private:
 	GLuint drawWireframeProgram;
 	GLuint vao, vbo, ebo;
 	int vertexCount, faceCount;
+	float maxPointDist;
 	glm::ivec2 previousMousePosition;
 	GLuint modelMatrixLocation;
 	GLuint viewMatrixLocation;
@@ -61,6 +63,7 @@ public:
 	void UpdateMainMesh(MyMesh *mesh);
 	bool LoadMainMesh(const char* filename);
 	void SetView(ViewDirection viewDirection);
+	void ExtractionMesh(float s);
 
 	void initialize();
 	void reshape(int width, int height);

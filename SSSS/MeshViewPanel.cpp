@@ -99,10 +99,10 @@ void MeshViewPanel::UpdateMainMesh(MyMesh *mesh)
 
 	maxPointDist = 0;
 	vertexCount = mesh->n_vertices();
-	GLfloat *vertexData = new GLfloat[vertexCount * 6];
+	GLdouble *vertexData = new GLdouble[vertexCount * 6];
 	for (MyMesh::VertexIter v_it = mesh->vertices_begin(); v_it != mesh->vertices_end(); ++v_it) {
-		memcpy(vertexData + (v_it->idx() * 6), mesh->point(v_it.handle()).data(), sizeof(GLfloat) * 3);
-		memcpy(vertexData + (v_it->idx() * 6 + 3), mesh->normal(v_it.handle()).data(), sizeof(GLfloat) * 3);
+		memcpy(vertexData + (v_it->idx() * 6), mesh->point(v_it.handle()).data(), sizeof(GLdouble) * 3);
+		memcpy(vertexData + (v_it->idx() * 6 + 3), mesh->normal(v_it.handle()).data(), sizeof(GLdouble) * 3);
 		for (int i = 0; i < 3; i++) {
 			if (abs(mesh->point(v_it.handle())[i]) > maxPointDist) {
 				maxPointDist = abs(mesh->point(v_it.handle())[i]);
@@ -111,9 +111,9 @@ void MeshViewPanel::UpdateMainMesh(MyMesh *mesh)
 	}
 	glGenBuffers(1, &vbo);
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
-	glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(GLfloat) * 6, vertexData, GL_STATIC_DRAW);
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6, 0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(GLfloat) * 6, (GLvoid*)(sizeof(GLfloat) * 3));
+	glBufferData(GL_ARRAY_BUFFER, vertexCount * sizeof(GLdouble) * 6, vertexData, GL_STATIC_DRAW);
+	glVertexAttribPointer(0, 3, GL_DOUBLE, GL_FALSE, sizeof(GLdouble) * 6, 0);
+	glVertexAttribPointer(1, 3, GL_DOUBLE, GL_FALSE, sizeof(GLdouble) * 6, (GLvoid*)(sizeof(GLdouble) * 3));
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 	delete[] vertexData;
@@ -142,7 +142,10 @@ bool MeshViewPanel::LoadMainMesh(const char* filename) {
 		if (!options.check(OpenMesh::IO::Options::VertexNormal) && mesh->has_vertex_normals()) {
 			mesh->update_normals();
 		}
+		//MyMesh* oldMesh = mainMesh;
 		UpdateMainMesh(mesh);
+		//if (oldMesh)
+		//	delete[] oldMesh;
 		SetView(ResetView);
 		return true;
 	}

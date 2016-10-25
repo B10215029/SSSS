@@ -9,6 +9,8 @@ struct MyTraits : public OpenMesh::DefaultTraits
 {
 	VertexAttributes(OpenMesh::Attributes::Normal);
 	FaceAttributes(OpenMesh::Attributes::Normal);
+	typedef OpenMesh::Vec3d Point;
+	typedef OpenMesh::Vec3d Normal;
 };
 
 public class MyMesh : public OpenMesh::TriMesh_ArrayKernelT<MyTraits>
@@ -31,5 +33,6 @@ private:
 	Eigen::MatrixXd b;
 	Eigen::MatrixXd x;
 	Eigen::SimplicialLDLT<Eigen::SparseMatrix<double>> linearSolver;
+	double wl;
 	bool hasExtraction;
 };

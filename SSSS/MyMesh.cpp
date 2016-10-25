@@ -1,5 +1,6 @@
 #include "MyMesh.h"
 #include <iostream>
+#include <ctime>
 
 OpenMesh::EPropHandleT<double> MyMesh::edgeWeight;
 OpenMesh::VPropHandleT<double> MyMesh::oneRingArea;
@@ -18,53 +19,87 @@ MyMesh::~MyMesh()
 
 void MyMesh::Extraction(float s)
 {
+	clock_t c = clock();
+	std::cout << "start:" << c << std::endl;
+	int vertexCount = n_vertices();
+	UpdateEdgeWeight();
+	std::cout << "UpdateEdgeWeight:" << c - clock() << std::endl;
 	if (!hasExtraction) {
 		hasExtraction = true;
-		UpdateEdgeWeight();
-		double wl = sqrt(MeshArea() / n_faces()) * 0.001;
-		std::cout << "MeshArea()" << wl << std::endl;
-		a = Eigen::SparseMatrix<double>(n_vertices() * 2, n_vertices());
-		b = Eigen::MatrixXd(n_vertices() * 2, 3);
-		x = Eigen::MatrixXd(n_vertices(), 3);
+		wl = sqrt(MeshArea() / n_faces()) * 0.001;
+		//std::cout << "MeshArea()" << wl << std::endl;
+		a = Eigen::SparseMatrix<double>(vertexCount * 2, vertexCount);
+		b = Eigen::MatrixXd(vertexCount * 2, 3);
+		x = Eigen::MatrixXd(vertexCount, 3);
+		std::cout << "wl = sqrt(MeshArea() / n_faces()) * 0.001;:" << c - clock() << std::endl;
 		// fill matrix
 		for (VertexIter v_it = vertices_begin(); v_it != vertices_end(); ++v_it) {
-			property(oneRingArea, v_it) = one_ring_area(v_it);
 			double w = 0;
-			for (VertexOHalfedgeIter voh_it = voh_begin(v_it); voh_it != voh_end(v_it); ++voh_it) {
-				a.insert(v_it->idx(), to_vertex_handle(voh_it).idx()) = -property(edgeWeight, edge_handle(voh_it));
-				w += property(edgeWeight, edge_handle(voh_it));
+			for (VertexEdgeIter ve_it = ve_begin(v_it); ve_it != ve_end(v_it); ++ve_it) {
+				w += property(edgeWeight, ve_it);
 			}
-			a.insert(v_it->idx(), v_it->idx()) = w;
-			a.insert(n_vertices() + v_it->idx(), v_it->idx()) = 1;
-			b(n_vertices() + v_it->idx(), 0) = point(v_it)[0];
-			b(n_vertices() + v_it->idx(), 1) = point(v_it)[1];
-			b(n_vertices() + v_it->idx(), 2) = point(v_it)[2];
+			for (VertexOHalfedgeIter voh_it = voh_begin(v_it); voh_it != voh_end(v_it); ++voh_it) {
+				double ew = property(edgeWeight, edge_handle(voh_it));
+				a.insert(v_it->idx(), to_vertex_handle(voh_it).idx()) = ew * wl / w;
+				//w += ew;
+			}
+			a.insert(v_it->idx(), v_it->idx()) = -wl;
+			property(oneRingArea, v_it) = one_ring_area(v_it);
+			a.insert(vertexCount + v_it->idx(), v_it->idx()) = 1;
+			b(v_it->idx(), 0) = 0;
+			b(v_it->idx(), 1) = 0;
+			b(v_it->idx(), 2) = 0;
+			b(vertexCount + v_it->idx(), 0) = point(v_it)[0];
+			b(vertexCount + v_it->idx(), 1) = point(v_it)[1];
+			b(vertexCount + v_it->idx(), 2) = point(v_it)[2];
 		}
-		a.block(0, 0, n_vertices(), n_vertices()) *= wl;
-		b.block(0, 0, n_vertices(), 3).setZero();
+		std::cout << "fill matrix:" << c - clock() << std::endl;
 		// slove
 		a.makeCompressed();
+		std::cout << "makeCompressed:" << c - clock() << std::endl;
 		linearSolver.compute(a.transpose() * a);
+		std::cout << "compute:" << c - clock() << std::endl;
 		x.col(0) = linearSolver.solve(a.transpose() * b.col(0));
+		std::cout << "solve0:" << c - clock() << std::endl;
 		x.col(1) = linearSolver.solve(a.transpose() * b.col(1));
+		std::cout << "solve1:" << c - clock() << std::endl;
 		x.col(2) = linearSolver.solve(a.transpose() * b.col(2));
+		std::cout << "solve2:" << c - clock() << std::endl;
 	}
 	else {
+		wl *= s;
+		//std::cout << "wl:" << wl << std::endl;
 		for (VertexIter v_it = vertices_begin(); v_it != vertices_end(); ++v_it) {
+			double w = 0;
+			for (VertexEdgeIter ve_it = ve_begin(v_it); ve_it != ve_end(v_it); ++ve_it) {
+				w += property(edgeWeight, ve_it);
+			}
+			for (VertexOHalfedgeIter voh_it = voh_begin(v_it); voh_it != voh_end(v_it); ++voh_it) {
+				double ew = property(edgeWeight, edge_handle(voh_it));
+				a.coeffRef(v_it->idx(), to_vertex_handle(voh_it).idx()) = ew * wl / w;
+			}
+			a.coeffRef(v_it->idx(), v_it->idx()) = -wl;
 			double ora = one_ring_area(v_it);
-			a.coeffRef(n_vertices() + v_it->idx(), v_it->idx()) *= sqrt(property(oneRingArea, v_it) / ora);
-			property(oneRingArea, v_it) = ora;
-			b(n_vertices() + v_it->idx(), 0) = x(v_it->idx(), 0) * a.coeffRef(n_vertices() + v_it->idx(), v_it->idx());
-			b(n_vertices() + v_it->idx(), 1) = x(v_it->idx(), 1) * a.coeffRef(n_vertices() + v_it->idx(), v_it->idx());
-			b(n_vertices() + v_it->idx(), 2) = x(v_it->idx(), 2) * a.coeffRef(n_vertices() + v_it->idx(), v_it->idx());
+			double& preOra = property(oneRingArea, v_it);
+			double& wh = a.coeffRef(vertexCount + v_it->idx(), v_it->idx());
+			wh = sqrt(preOra / ora);
+			//preOra = ora;
+			b(vertexCount + v_it->idx(), 0) = x(v_it->idx(), 0) * wh;
+			b(vertexCount + v_it->idx(), 1) = x(v_it->idx(), 1) * wh;
+			b(vertexCount + v_it->idx(), 2) = x(v_it->idx(), 2) * wh;
+			//std::cout << "w" << w << "wh:" << wh << ", ora" << ora << "(" << b(vertexCount + v_it->idx(), 0) << "," << b(vertexCount + v_it->idx(), 1) << "," << b(vertexCount + v_it->idx(), 2) << ")" << std::endl;
 		}
-		a.block(0, 0, n_vertices(), n_vertices()) *= s;
-		//b.block(n_vertices(), 0, n_vertices(), 3) = x;
+		std::cout << "fill matrix:" << c - clock() << std::endl;
 		a.makeCompressed();
+		std::cout << "makeCompressed:" << c - clock() << std::endl;
 		linearSolver.compute(a.transpose() * a);
+		std::cout << "compute:" << c - clock() << std::endl;
 		x.col(0) = linearSolver.solve(a.transpose() * b.col(0));
+		std::cout << "solve0:" << c - clock() << std::endl;
 		x.col(1) = linearSolver.solve(a.transpose() * b.col(1));
+		std::cout << "solve1:" << c - clock() << std::endl;
 		x.col(2) = linearSolver.solve(a.transpose() * b.col(2));
+		std::cout << "solve2:" << c - clock() << std::endl;
 	}
 	// fill mesh
 	for (VertexIter v_it = vertices_begin(); v_it != vertices_end(); ++v_it) {
@@ -72,14 +107,7 @@ void MyMesh::Extraction(float s)
 		point(v_it)[1] = x(v_it->idx(), 1);
 		point(v_it)[2] = x(v_it->idx(), 2);
 	}
-#include <fstream>
-	std::fstream fp;
-	fp.open("a.mat.txt", std::ios::out);//開啟檔案
-	fp << a << std::endl;
-	fp.close();
-	fp.open("b.mat.txt", std::ios::out);//開啟檔案
-	fp << b << std::endl;
-	fp.close();
+	std::cout << "fill mesh:" << c - clock() << std::endl;
 	puts("Extraction");
 }
 
@@ -103,7 +131,6 @@ void MyMesh::UpdateEdgeWeight()
 		else {
 			property(edgeWeight, e_it.handle()) = 0;
 		}
-		//std::cout << e_it->idx() << ":" << property(edgeWeight, e_it.handle()) << std::endl;
 	}
 }
 
@@ -124,11 +151,14 @@ double MyMesh::face_area(FaceHandle fh)
 	Point vertex1 = point(fv_it);
 	++fv_it;
 	Point vertex2 = point(fv_it);
-	double a = (vertex0 - vertex1).length();
-	double b = (vertex1 - vertex2).length();
-	double c = (vertex2 - vertex0).length();
-	double s = (a + b + c) / 2;
-	double r = sqrt(s * (s - a) * (s - b) * (s - c));
+	//double a = (vertex0 - vertex1).length();
+	//double b = (vertex1 - vertex2).length();
+	//double c = (vertex2 - vertex0).length();
+	//double s = (a + b + c) / 2;
+	//double r = sqrt(s * (s - a) * (s - b) * (s - c));
+	Point x = vertex1 - vertex0;
+	Point y = vertex2 - vertex0;
+	double r = sqrt((x[1]*y[2]-x[2]*y[1])*(x[1] * y[2] - x[2] * y[1])+ (x[2] * y[0] - x[0] * y[2])*(x[2] * y[0] - x[0] * y[2])+ (x[0] * y[1] - x[1] * y[0])*(x[0] * y[1] - x[1] * y[0])) * 0.5;
 	//std::cout << r;
 	return r;
 }
@@ -141,4 +171,3 @@ double MyMesh::one_ring_area(VertexHandle vh)
 	}
 	return area;
 }
-
